@@ -12,6 +12,25 @@ form.addEventListener('submit', (event) =>{
             data[name] = value;
             }
         }
+    fetch('https://jsonplaceholder.typicode.com/posts', {
         
-    fetch('https://jsonplaceholder.typicode.com/posts').then
+        method: 'POST',
+        // Переводим весь объект в строку
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if(response.status === 200 || response.status === 201) {
+            return response.json();
+        } else {
+            throw new Error(response.status);
+        }
+    })
+    .then(data => {
+        alert('Данные успешно отправлены!');
+        form.reset();
+    })
+    .catch(error => {
+        alert('Произошла ошибка, статус ' + error.message);
+    })
 })
+
